@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char text[100], ch;
+    int k, i;
+    printf("Enter plaintext: ");
+    fgets(text, sizeof(text), stdin);
+    printf("Enter key (1-25): ");
+    scanf("%d", &k);
+    for (i = 0; text[i] != '\0'; i++)
+    {
+        ch = text[i];
+        if (ch >= 'A' && ch <= 'Z')
+            text[i] = (ch - 'A' + k) % 26 + 'A';
+        else if (ch >= 'a' && ch <= 'z')
+            text[i] = (ch - 'a' + k) % 26 + 'a';
+    }
+    printf("Encrypted text: %s", text);
+    return 0;
+}
