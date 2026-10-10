@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char c[500];
+    int i, x, p, a = 3, b = 15, inv = 9;
+    printf("Enter ciphertext: ");
+    fgets(c, sizeof(c), stdin);
+    for (i = 0; c[i] != '\0'; i++)
+    {
+        if (c[i] >= 'A' && c[i] <= 'Z')
+        {
+            x = c[i] - 'A';
+            p = (inv * (x - b + 26)) % 26;
+            c[i] = p + 'A';
+        }
+        else if (c[i] >= 'a' && c[i] <= 'z')
+        {
+            x = c[i] - 'a';
+            p = (inv * (x - b + 26)) % 26;
+            c[i] = p + 'a';
+        }
+    }
+    printf("Decrypted text: %s", c);
+    return 0;
+}
