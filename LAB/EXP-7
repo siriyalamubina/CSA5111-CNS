@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+int main()
+{
+    char text[1000], key[27];
+    int i, x;
+    printf("Enter ciphertext using A-Z: ");
+    fgets(text, sizeof(text), stdin);
+    printf("Enter 26-letter decryption key: ");
+    scanf("%26s", key);
+    if (strlen(key) != 26)
+    {
+        printf("Invalid key!\n");
+        return 1;
+    }
+    for (i = 0; text[i] != '\0'; i++)
+    {
+        if (isupper((unsigned char)text[i]))
+        {
+            x = text[i] - 'A';
+            text[i] = toupper((unsigned char)key[x]);
+        }
+        else if (islower((unsigned char)text[i]))
+        {
+            x = text[i] - 'a';
+            text[i] = tolower((unsigned char)key[x]);
+        }
+    }
+    printf("Decrypted text: %s", text);
+    return 0;
+}
