@@ -1,0 +1,26 @@
+
+#include <stdio.h>
+#include <ctype.h>
+int main()
+{
+    char text[100];
+    char key[] = "CIPHERABDFGJKLMNOQSTUVWXYZ";
+    int i, x;
+    printf("Enter plaintext: ");
+    fgets(text, sizeof(text), stdin);
+    for (i = 0; text[i] != '\0'; i++)
+    {
+        if (isupper((unsigned char)text[i]))
+        {
+            x = text[i] - 'A';
+            text[i] = key[x];
+        }
+        else if (islower((unsigned char)text[i]))
+        {
+            x = text[i] - 'a';
+            text[i] = tolower((unsigned char)key[x]);
+        }
+    }
+    printf("Ciphertext: %s", text);
+    return 0;
+}
