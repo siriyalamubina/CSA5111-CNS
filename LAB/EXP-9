@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+char matrix[5][5];
+void createMatrix(char key[])
+{
+    int used[26] = {0};
+    int i, j, k = 0;
+    char c;
+
+    used['J' - 'A'] = 1;
+    for (i = 0; key[i] != '\0'; i++)
+    {
+        c = toupper((unsigned char)key[i]);
+        if (c < 'A' || c > 'Z')
+            continue;
+        if (c == 'J')
+            c = 'I';
+
+        if (!used[c - 'A'])
+        {
+            matrix[k / 5][k % 5] = c;
+            used[c - 'A'] = 1;
+            k++;
+        }
+    }
+
+    for (c = 'A'; c <= 'Z'; c++)
+    {
+        if (!used[c - 'A'])
+        {
+            matrix[k / 5][k % 5] = c;
+            k++;
+        }
+    }
+}
+
+void findPosition(char c, int *r, int *col)
+{
+    int i, j;
+
+    if (c == 'J')
+        c = 'I';
+
+    for (i = 0; i < 5; i++)
+        for (j = 0; j < 5; j++)
+            if (matrix[i][j] == c)
+            {
+                *r = i;
+                *col = j;
+                return;
+            }
+}
+
+int main()
+{
+    char key[100], cipher[300];
+    int i, r1, c1, r2, c2;
+
+    printf("Enter Playfair keyword: ");
+    scanf("%99s", key);
+
+    createMatrix(key);
+
+    printf("Enter ciphertext: ");
+    scanf("%299s", cipher);
+
+    printf("\nDecrypted text: ");
+
+    for (i = 0; cipher[i] && cipher[i + 1]; i += 2)
+    {
+        findPosition(toupper(cipher[i]), &r1, &c1);
+        findPosition(toupper(cipher[i + 1]), &r2, &c2);
+
+        if (r1 == r2)
+        {
+            putchar(matrix[r1][(c1 + 4) % 5]);
+            putchar(matrix[r2][(c2 + 4) % 5]);
+        }
+        else if (c1 == c2)
+        {
+            putchar(matrix[(r1 + 4) % 5][c1]);
+            putchar(matrix[(r2 + 4) % 5][c2]);
+        }
+        else
+        {
+            putchar(matrix[r1][c2]);
+            putchar(matrix[r2][c1]);
+        }
+    }
+
+    printf("\n");
+    return 0;
+}
