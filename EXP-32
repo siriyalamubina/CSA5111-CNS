@@ -1,0 +1,27 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int p = 23, q = 11, g = 4;
+    int x = 3, h = 7;
+    int k1 = 2, k2 = 3;
+    int r1, s1, r2, s2;
+    int inv1 = 6, inv2 = 4;
+
+    r1 = 1;
+    r2 = 9;
+
+    s1 = (inv1 * (h + x * r1)) % q;
+    s2 = (inv2 * (h + x * r2)) % q;
+
+    printf("First DSA Signature:\n");
+    printf("r = %d, s = %d\n", r1, s1);
+
+    printf("Second DSA Signature:\n");
+    printf("r = %d, s = %d\n", r2, s2);
+
+    printf("Same message, different signatures.\n");
+
+    return 0;
+}
