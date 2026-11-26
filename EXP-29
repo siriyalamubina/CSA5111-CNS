@@ -1,0 +1,27 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int state = 1600;
+    int block = 1024;
+    int lane = 64;
+
+    int capacity = state - block;
+    int totalLanes = state / lane;
+    int capacityLanes = capacity / lane;
+
+    printf("State size: %d bits\n", state);
+    printf("Block size: %d bits\n", block);
+    printf("Capacity: %d bits\n", capacity);
+
+    printf("Total lanes: %d\n", totalLanes);
+    printf("Capacity lanes: %d\n", capacityLanes);
+
+    printf("Initially zero capacity lanes: %d\n",
+           capacityLanes);
+
+    printf("Without permutation, these lanes remain zero.\n");
+
+    return 0;
+}
