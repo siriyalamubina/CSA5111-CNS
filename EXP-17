@@ -1,0 +1,30 @@
+
+#include <stdio.h>
+#include <openssl/des.h>
+
+int main()
+{
+    DES_cblock key, input, output;
+    DES_key_schedule schedule;
+    int i;
+
+    printf("Enter 8-character key: ");
+    scanf("%8s", key);
+
+    printf("Enter 8-character ciphertext: ");
+    scanf("%8s", input);
+
+    DES_set_key_unchecked(&key, &schedule);
+
+    DES_ecb_encrypt(&input, &output,
+                    &schedule, DES_DECRYPT);
+
+    printf("Decrypted text: ");
+
+    for(i = 0; i < 8; i++)
+        printf("%c", output[i]);
+
+    printf("\n");
+
+    return 0;
+}
