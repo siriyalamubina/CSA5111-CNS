@@ -1,0 +1,40 @@
+
+#include <stdio.h>
+
+int encrypt(int x)
+{
+    return (5 * x + 7) % 256;
+}
+
+int main()
+{
+    int X, T, second;
+    int mac1, mac2;
+
+    printf("Enter one-block message X (0-255): ");
+    scanf("%d", &X);
+
+    // MAC of one-block message
+    T = encrypt(X);
+
+    // Construct second block
+    second = X ^ T;
+
+    // MAC of two-block message
+    mac1 = encrypt(X);
+    mac2 = encrypt(second ^ mac1);
+
+    printf("Original message X: %d\n", X);
+    printf("One-block MAC: %d\n", T);
+
+    printf("Second block: %d\n", second);
+
+    printf("Two-block MAC: %d\n", mac2);
+
+    if(T == mac2)
+        printf("Both MAC values are equal.\n");
+    else
+        printf("MAC values are different.\n");
+
+    return 0;
+}
