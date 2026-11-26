@@ -1,0 +1,41 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int power(int m, int e, int n)
+{
+    int result = 1;
+
+    while(e > 0)
+    {
+        result = (result * m) % n;
+        e--;
+    }
+
+    return result;
+}
+
+int main()
+{
+    char text[100];
+    int e, n, i, m;
+
+    printf("Enter plaintext: ");
+    scanf("%99s", text);
+
+    printf("Enter public key e and n: ");
+    scanf("%d%d", &e, &n);
+
+    printf("Encrypted values: ");
+
+    for(i = 0; text[i] != '\0'; i++)
+    {
+        m = toupper(text[i]) - 'A';
+
+        printf("%d ", power(m, e, n));
+    }
+
+    printf("\n");
+    return 0;
+}
