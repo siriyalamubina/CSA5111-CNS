@@ -1,0 +1,64 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int p[4], ecb[4], cbc[4];
+    int d1[4], d2[4];
+    int key = 15, iv = 10;
+    int i;
+
+    printf("Enter 4 plaintext blocks (0-255):\n");
+
+    for(i=0;i<4;i++)
+        scanf("%d",&p[i]);
+
+    // ECB encryption
+    for(i=0;i<4;i++)
+        ecb[i]=p[i]^key;
+
+    // CBC encryption
+    for(i=0;i<4;i++)
+    {
+        if(i==0)
+            cbc[i]=(p[i]^iv)^key;
+        else
+            cbc[i]=(p[i]^cbc[i-1])^key;
+    }
+
+    printf("\nECB Ciphertext: ");
+    for(i=0;i<4;i++)
+        printf("%d ",ecb[i]);
+
+    printf("\nCBC Ciphertext: ");
+    for(i=0;i<4;i++)
+        printf("%d ",cbc[i]);
+
+    // Introduce error in second ciphertext block
+    ecb[1]^=1;
+    cbc[1]^=1;
+
+    // ECB decryption
+    for(i=0;i<4;i++)
+        d1[i]=ecb[i]^key;
+
+    // CBC decryption
+    for(i=0;i<4;i++)
+    {
+        if(i==0)
+            d2[i]=(cbc[i]^key)^iv;
+        else
+            d2[i]=(cbc[i]^key)^cbc[i-1];
+    }
+
+    printf("\n\nECB after error: ");
+    for(i=0;i<4;i++)
+        printf("%d ",d1[i]);
+
+    printf("\nCBC after error: ");
+    for(i=0;i<4;i++)
+        printf("%d ",d2[i]);
+
+    printf("\n");
+    return 0;
+}
