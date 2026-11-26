@@ -1,0 +1,49 @@
+
+#include <stdio.h>
+#include <stdint.h>
+
+void generate(uint64_t x, int bits)
+{
+    uint64_t r, k1, k2;
+
+    r = (bits == 64) ? 0x1B : 0x87;
+
+    k1 = x << 1;
+
+    if(x >> (bits - 1))
+        k1 ^= r;
+
+    k2 = k1 << 1;
+
+    if(k1 >> (bits - 1))
+        k2 ^= r;
+
+    printf("Subkey K1 = %llX\n",
+           (unsigned long long)k1);
+
+    printf("Subkey K2 = %llX\n",
+           (unsigned long long)k2);
+}
+
+int main()
+{
+    int bits;
+
+    printf("Enter block size (64): ");
+    scanf("%d", &bits);
+
+    if(bits != 64)
+    {
+        printf("This demonstration supports 64-bit blocks only.\n");
+        return 0;
+    }
+
+    printf("Enter initial encrypted block in hexadecimal: ");
+
+    uint64_t x;
+    scanf("%llx", (unsigned long long *)&x);
+
+    generate(x, bits);
+
+    return 0;
+}
