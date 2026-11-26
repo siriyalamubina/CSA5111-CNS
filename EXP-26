@@ -1,0 +1,40 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int p, q, n, phi;
+    int e, d;
+
+    printf("Enter prime p: ");
+    scanf("%d", &p);
+
+    printf("Enter prime q: ");
+    scanf("%d", &q);
+
+    n = p * q;
+    phi = (p - 1) * (q - 1);
+
+    printf("Enter new public exponent: ");
+    scanf("%d", &e);
+
+    for(d = 1; d < phi; d++)
+    {
+        if((e * d) % phi == 1)
+            break;
+    }
+
+    if(d == phi)
+    {
+        printf("Invalid public exponent\n");
+        return 0;
+    }
+
+    printf("RSA modulus n = %d\n", n);
+    printf("New public key = %d\n", e);
+    printf("New private key = %d\n", d);
+
+    printf("Same modulus reused: NOT SAFE\n");
+
+    return 0;
+}
