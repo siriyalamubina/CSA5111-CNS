@@ -1,0 +1,60 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char text[500];
+    char freq[] = "ETAOINSHRDLCUMWFGYPBVKJXQZ";
+    char result[500];
+    int count[26] = {0};
+    int used[26] = {0};
+    int map[26];
+    int i, j, max, index;
+
+    printf("Enter ciphertext: ");
+    fgets(text, sizeof(text), stdin);
+
+    for(i = 0; i < 26; i++)
+        map[i] = -1;
+
+    for(i = 0; text[i]; i++)
+        if(isalpha((unsigned char)text[i]))
+            count[toupper(text[i]) - 'A']++;
+
+    for(i = 0; i < 26; i++)
+    {
+        max = -1;
+        index = -1;
+
+        for(j = 0; j < 26; j++)
+            if(count[j] > max && !used[j])
+            {
+                max = count[j];
+                index = j;
+            }
+
+        if(index != -1)
+        {
+            used[index] = 1;
+            map[index] = freq[i] - 'A';
+        }
+    }
+
+    for(i = 0; text[i]; i++)
+    {
+        if(isupper((unsigned char)text[i]))
+            result[i] = map[text[i]-'A'] + 'A';
+        else if(islower((unsigned char)text[i]))
+            result[i] = map[text[i]-'a'] + 'a';
+        else
+            result[i] = text[i];
+    }
+
+    result[i] = '\0';
+
+    printf("Possible plaintext: %s", result);
+
+    return 0;
+}
