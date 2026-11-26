@@ -1,0 +1,52 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int p[2][2], c[2][2], inv[2][2];
+    int det, d, i, j;
+    int k[2][2];
+
+    printf("Enter plaintext matrix:\n");
+    for(i=0;i<2;i++)
+        for(j=0;j<2;j++)
+            scanf("%d",&p[i][j]);
+
+    printf("Enter ciphertext matrix:\n");
+    for(i=0;i<2;i++)
+        for(j=0;j<2;j++)
+            scanf("%d",&c[i][j]);
+
+    det=(p[0][0]*p[1][1]-p[0][1]*p[1][0])%26;
+    if(det<0) det+=26;
+
+    for(d=1;d<26;d++)
+        if((det*d)%26==1) break;
+
+    if(d==26)
+    {
+        printf("Inverse does not exist\n");
+        return 0;
+    }
+
+    inv[0][0]=p[1][1]*d%26;
+    inv[0][1]=(-p[0][1]*d%26+26)%26;
+    inv[1][0]=(-p[1][0]*d%26+26)%26;
+    inv[1][1]=p[0][0]*d%26;
+
+    for(i=0;i<2;i++)
+        for(j=0;j<2;j++)
+        {
+            k[i][j]=0;
+            for(int x=0;x<2;x++)
+                k[i][j]+=c[i][x]*inv[x][j];
+
+            k[i][j]%=26;
+        }
+
+    printf("Recovered Key Matrix:\n");
+    for(i=0;i<2;i++)
+        printf("%d %d\n",k[i][0],k[i][1]);
+
+    return 0;
+}
