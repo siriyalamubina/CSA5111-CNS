@@ -1,0 +1,36 @@
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char text[200];
+    int n, block, pad, i;
+
+    printf("Enter binary plaintext: ");
+    scanf("%199s", text);
+
+    printf("Enter block size: ");
+    scanf("%d", &block);
+
+    n = strlen(text);
+
+    if(block <= 0 || strspn(text, "01") != n)
+    {
+        printf("Invalid input\n");
+        return 0;
+    }
+
+    pad = block - (n % block);
+
+    text[n++] = '1';
+
+    for(i = 1; i < pad; i++)
+        text[n++] = '0';
+
+    text[n] = '\0';
+
+    printf("Padded message: %s\n", text);
+
+    return 0;
+}
