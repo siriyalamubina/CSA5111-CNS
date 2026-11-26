@@ -1,0 +1,60 @@
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char key[57];
+    int C[28], D[28];
+    int shift[16] =
+    {1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1};
+
+    int i, j, r;
+
+    printf("Enter 56-bit binary key: ");
+    scanf("%56s", key);
+
+    if(strlen(key) != 56)
+    {
+        printf("Invalid key\n");
+        return 0;
+    }
+
+    for(i=0; i<28; i++)
+    {
+        C[i] = key[i]-'0';
+        D[i] = key[i+28]-'0';
+    }
+
+    for(r=0; r<16; r++)
+    {
+        for(j=0; j<shift[r]; j++)
+        {
+            int temp = C[0];
+
+            for(i=0; i<27; i++)
+                C[i] = C[i+1];
+
+            C[27] = temp;
+
+            temp = D[0];
+
+            for(i=0; i<27; i++)
+                D[i] = D[i+1];
+
+            D[27] = temp;
+        }
+
+        printf("Round %d: ",r+1);
+
+        for(i=0;i<28;i++)
+            printf("%d",C[i]);
+
+        for(i=0;i<28;i++)
+            printf("%d",D[i]);
+
+        printf("\n");
+    }
+
+    return 0;
+}
